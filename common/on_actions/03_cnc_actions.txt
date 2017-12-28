@@ -1,0 +1,69 @@
+#This file adapts the integration process to the new state controller
+#in a non-invasive, event-free way
+on_actions =  {
+	#ROOT is new controller #FROM is old controller #FROM.FROM is state ID
+	on_state_control_changed = {
+		effect = {
+			#either claimed/cored or not. If not, integration or coring process has to be restarted
+			FROM.FROM.clr_state_flag = slow_integration
+			FROM.FROM.clr_state_flag = normal_integration
+			FROM.FROM.clr_state_flag = fast_integration
+			FROM.FROM.clr_state_flag = fast_coring
+			FROM.FROM.clr_state_flag = normal_coring
+			FROM.FROM.clr_state_flag = slow_coring
+
+			if = {
+				limit = {
+					FROM.FROM = {
+						is_claimed_by = ROOT
+					}
+					NOT = {
+						FROM.FROM = {
+							has_state_flag = int_bonus
+						}
+					}
+				}
+				FROM.FROM = {
+					add_state_modifier = { 
+						modifier = { 
+							local_non_core_manpower = 0.18
+							#resistance_tick_auto = -2 doesn't work
+							#resistance_tick = -.25
+							local_building_slots_factor = 0.25#local?
+						} 
+					}
+					set_state_flag = int_bonus
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						NOT = {
+							FROM.FROM = {
+								is_claimed_by = ROOT
+							}
+						}
+						FROM.FROM = {
+							is_core_of = ROOT
+						}
+					}
+					FROM.FROM = {
+						has_state_flag = int_bonus
+					}
+				}
+				FROM.FROM = {
+					add_state_modifier = { 
+						modifier = { 
+							local_non_core_manpower = -0.18
+							#resistance_tick_auto = 2 doesn't work
+							#resistance_tick = .25
+							local_building_slots_factor = -0.25#local?
+						} 
+					}
+					clr_state_flag = int_bonus
+				}
+			}
+			#if both limits are true or false, nothing happens
+		}
+	}
+}

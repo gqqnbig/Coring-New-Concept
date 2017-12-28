@@ -1,0 +1,603 @@
+﻿add_namespace = cor_sta
+
+#starting integration
+country_event = {
+	id = cor_sta.1
+	fire_only_once = no
+	mean_time_to_happen = { days = 1 }
+	hidden = no
+	
+	title = cor_sta.1.t
+	desc = cor_sta.1.d
+	
+	trigger = {
+		any_state = {
+			AND = {
+				is_controlled_by = FROM
+				NOT = { is_core_of = FROM }
+				NOT = { is_claimed_by = FROM}
+				NOT = { has_state_flag = fast_integration }
+				NOT = { has_state_flag = normal_integration }
+				NOT = { has_state_flag = slow_integration }
+				#if has int_bonus but no claim, int_bonus will be removed by event 2 anyway
+				if = {
+					LIMIT = { 
+						NOT = { is_owned_by = FROM }
+					}
+					all_neighbor_state = {
+						is_controlled_by = FROM
+					}
+				}
+				OR = {
+					any_neighbor_state = {
+						OR = {
+							is_core_of = FROM
+							has_state_flag = integ_bonus
+						}
+					}
+					AND = {
+						is_coastal = yes
+						FROM = {
+							any_owned_state = {
+								AND = {
+									is_core_of = FROM
+									is_coastal = yes
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	option = { #fast integration
+		trigger = {
+			AND = {
+				has_political_power > 29
+				OR = {
+					is_ai = no
+					has_political_power > 299
+				}
+			}
+		}
+		name = cor_sta.1.a
+		add_political_power = -15
+		random_state = {
+			limit = {
+				AND = {
+					is_controlled_by = FROM
+					NOT = { is_core_of = FROM }
+					NOT = {is_claimed_by = FROM}
+					NOT = { has_state_flag = fast_integration }
+					NOT = { has_state_flag = normal_integration }
+					NOT = { has_state_flag = slow_integration }
+					if = {
+						LIMIT = { 
+							NOT = { is_owned_by = FROM }
+						}
+						all_neighbor_state = {
+							is_controlled_by = FROM
+						}
+					}
+					OR = {
+						any_neighbor_state = {
+							OR = {
+								is_core_of = FROM
+								has_state_flag = integ_bonus
+							}
+						}
+						AND = {
+							is_coastal = yes
+							FROM = {
+								any_owned_state = {
+									AND = {
+										is_core_of = FROM
+										is_coastal = yes
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			clr_state_flag = fast_coring #no claim, no coring
+			clr_state_flag = normal_coring
+			clr_state_flag = slow_coring
+			set_state_flag = fast_integration
+			custom_effect_tooltip = cor_sta.1.a.t
+		}
+	}
+	
+	option = { #normal integration
+		trigger = {
+			AND = {
+				has_political_power > 9
+				OR = {
+					is_ai = no
+					has_political_power > 159
+				}
+			}
+		}
+		name = cor_sta.1.b
+		add_political_power = -5
+		random_state = {
+			limit = {
+				AND = {
+					is_controlled_by = FROM
+					NOT = { is_core_of = FROM }
+					NOT = {is_claimed_by = FROM}
+					NOT = { has_state_flag = fast_integration }
+					NOT = { has_state_flag = normal_integration }
+					NOT = { has_state_flag = slow_integration }
+					if = {
+						LIMIT = { 
+							NOT = { is_owned_by = FROM }
+						}
+						all_neighbor_state = {
+							is_controlled_by = FROM
+						}
+					}
+					OR = {
+						any_neighbor_state = {
+							OR = {
+								is_core_of = FROM
+								has_state_flag = integ_bonus
+							}
+						}
+						AND = {
+							is_coastal = yes
+							FROM = {
+								any_owned_state = {
+									AND = {
+										is_core_of = FROM
+										is_coastal = yes
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			clr_state_flag = fast_coring #no claim, no coring
+			clr_state_flag = normal_coring
+			clr_state_flag = slow_coring
+			set_state_flag = normal_integration
+			custom_effect_tooltip = cor_sta.1.b.t
+		}
+	}
+	
+	option = { #slow integration
+		name = cor_sta.1.c
+		random_state = {
+			limit = {
+				AND = {
+					is_controlled_by = FROM
+					NOT = { is_core_of = FROM }
+					NOT = {is_claimed_by = FROM}
+					AND = {
+						NOT = { has_state_flag = fast_integration }
+						NOT = { has_state_flag = normal_integration }
+						NOT = { has_state_flag = slow_integration }
+					}
+					if = {
+						LIMIT = { 
+							NOT = { is_owned_by = FROM }
+						}
+						all_neighbor_state = {
+							is_controlled_by = FROM
+						}
+					}
+					OR = {
+						any_neighbor_state = {
+							OR = {
+								is_core_of = FROM
+								has_state_flag = integ_bonus
+							}
+						}
+						AND = {
+							is_coastal = yes
+							FROM = {
+								any_owned_state = {
+									AND = {
+										is_core_of = FROM
+										is_coastal = yes
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			set_state_flag = slow_integration
+			clr_state_flag = fast_coring #no claim, no coring
+			clr_state_flag = normal_coring
+			clr_state_flag = slow_coring
+			custom_effect_tooltip = cor_sta.1.c.t
+		}
+	}
+}
+
+#integration
+country_event = {
+	id = cor_sta.2
+	fire_only_once = no
+	mean_time_to_happen = { days = 1 }
+	hidden = no
+	
+	title = cor_sta.2.t
+	desc = cor_sta.2.d
+	
+	trigger = {
+		any_state = {
+			AND = {
+				is_controlled_by = FROM
+				NOT = {is_core_of = FROM}
+				NOT = {has_state_flag = int_bonus}
+				OR = {
+					is_claimed_by = FROM #add the modifier if already claimed
+					has_state_flag = {
+						flag = fast_integration
+						inttime*days>50
+					}
+					has_state_flag = {
+						flag = normal_integration
+						inttime*days>110
+					}
+					has_state_flag = {
+						flag = slow_integration
+						inttime*days>230
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = cor_sta.2.a
+		every_state = {
+			limit = {
+				AND = {
+					is_controlled_by = FROM
+					NOT = {is_core_of = FROM}
+					NOT = {has_state_flag = int_bonus}
+					OR = {
+						has_state_flag = {
+							flag = fast_integration
+							inttime*days>50
+						}
+						has_state_flag = {
+							flag = normal_integration
+							inttime*days>110
+						}
+						has_state_flag = {
+							flag = slow_integration
+							inttime*days>230
+						}
+					}
+				}
+			}
+			add_state_modifier = { 
+				modifier = { 
+					local_non_core_manpower = 0.18
+					#resistance_tick_auto = -2 doesn't work
+					#resistance_tick = -.25
+					local_building_slots_factor = 0.25
+				} 
+			}
+			add_claim_by = FROM
+			set_state_flag = int_bonus
+			clr_state_flag = fast_integration
+			clr_state_flag = normal_integration
+			clr_state_flag = slow_integration
+			clr_state_flag = fast_coring #no claim previous to this event, no coring
+			clr_state_flag = normal_coring
+			clr_state_flag = slow_coring
+		}
+	}
+}
+
+#starting coring
+country_event = {
+	id = cor_sta.6
+	fire_only_once = no
+	mean_time_to_happen = {
+		days = 1
+	}
+	hidden = no
+	
+	title = cor_sta.6.t
+	desc = cor_sta.6.d
+	
+	trigger = {
+		AND = {
+			has_war = no
+			any_state = {
+				AND = {
+					is_owned_by = FROM #we are at peace & the state  has to be owned for good
+					is_claimed_by = FROM
+					#has_state_flag = int_bonus : is managed independantly by event 2
+					NOT = { is_core_of = FROM }
+					NOT = { has_state_flag = fast_coring }
+					NOT = { has_state_flag = normal_coring }
+					NOT = { has_state_flag = slow_coring }
+					#NOT = { has_state_flag = fast_integration }#REMOVED BY EVENT 2
+					#NOT = { has_state_flag = normal_integration }
+					#NOT = { has_state_flag = slow_integration }
+					OR = {
+						any_neighbor_state = {
+							AND = {
+								is_core_of = FROM
+								is_owned_by = FROM
+							}
+						}
+						AND = {
+							is_coastal = yes
+							FROM = {
+								any_owned_state = {
+									AND = {
+										is_core_of = FROM
+										is_coastal = yes
+									}
+								}
+							}
+							all_neighbor_state = {
+								is_claimed_by = FROM
+								is_owned_by = FROM
+							}
+						}
+					}
+			#deactivated	any_neighbor_state = {
+				#		AND = {
+				#			is_core_of = FROM
+				#			is_owned_by = FROM
+				#		}
+				#	}
+
+				}
+			}
+		}
+	}
+	
+	option = { #fast coring
+		trigger = {
+			AND = {
+				has_political_power > 29
+				OR = {
+					is_ai = no
+					has_political_power > 299
+				}
+			}
+		}
+		name = cor_sta.6.a
+		add_political_power = -30
+		random_owned_state = {
+			limit = {
+				AND = {
+					is_owned_by = FROM #we are at peace & the state  has to be owned for good
+					is_claimed_by = FROM
+					#has_state_flag = int_bonus : is managed independantly by event 2
+					NOT = { is_core_of = FROM }
+					NOT = { has_state_flag = fast_coring }
+					NOT = { has_state_flag = normal_coring }
+					NOT = { has_state_flag = slow_coring }
+					#NOT = { has_state_flag = fast_integration }#REMOVED BY EVENT 2
+					#NOT = { has_state_flag = normal_integration }
+					#NOT = { has_state_flag = slow_integration }
+					OR = {
+						any_neighbor_state = {
+							AND = {
+								is_core_of = FROM
+								is_owned_by = FROM
+							}
+						}
+						AND = {
+							is_coastal = yes
+							FROM = {
+								any_owned_state = {
+									AND = {
+										is_core_of = FROM
+										is_coastal = yes
+									}
+								}
+							}
+							all_neighbor_state = {
+								is_claimed_by = FROM
+								is_owned_by = FROM
+							}
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = cor_sta.3.a.t
+			set_state_flag = fast_coring
+		}
+	}
+	
+	option = { #normal coring
+		trigger = {
+			AND = {
+				has_political_power > 9
+				OR = {
+					is_ai = no
+					has_political_power > 159
+				}
+			}
+		}
+		name = cor_sta.6.b
+		add_political_power = -10
+		random_owned_state = {
+			limit = {
+				AND = {
+					is_owned_by = FROM #we are at peace & the state  has to be owned for good
+					is_claimed_by = FROM
+					#has_state_flag = int_bonus : is managed independantly by event 2
+					NOT = { is_core_of = FROM }
+					NOT = { has_state_flag = fast_coring }
+					NOT = { has_state_flag = normal_coring }
+					NOT = { has_state_flag = slow_coring }
+					#NOT = { has_state_flag = fast_integration }#REMOVED BY EVENT 2
+					#NOT = { has_state_flag = normal_integration }
+					#NOT = { has_state_flag = slow_integration }
+					OR = {
+						any_neighbor_state = {
+							AND = {
+								is_core_of = FROM
+								is_owned_by = FROM
+							}
+						}
+						AND = {
+							is_coastal = yes
+							FROM = {
+								any_owned_state = {
+									AND = {
+										is_core_of = FROM
+										is_coastal = yes
+									}
+								}
+							}
+							all_neighbor_state = {
+								has_state_flag = integ_bonus
+								is_owned_by = FROM
+							}
+						}
+					}
+				}
+			}
+			set_state_flag = normal_coring
+			custom_effect_tooltip = cor_sta.3.b.t
+		}
+	}
+	
+	option = { #slow coring
+		name = cor_sta.6.c
+		random_owned_state = {
+			limit = {
+				AND = {
+					is_owned_by = FROM #we are at peace & the state  has to be owned for good
+					is_claimed_by = FROM
+					#has_state_flag = int_bonus : is managed independantly by event 2
+					NOT = { is_core_of = FROM }
+					NOT = { has_state_flag = fast_coring }
+					NOT = { has_state_flag = normal_coring }
+					NOT = { has_state_flag = slow_coring }
+					#NOT = { has_state_flag = fast_integration }#REMOVED BY EVENT 2
+					#NOT = { has_state_flag = normal_integration }
+					#NOT = { has_state_flag = slow_integration }
+					OR = {
+						any_neighbor_state = {
+							AND = {
+								is_core_of = FROM
+								is_owned_by = FROM
+							}
+						}
+						AND = {
+							is_coastal = yes
+							FROM = {
+								any_owned_state = {
+									AND = {
+										is_core_of = FROM
+										is_coastal = yes
+									}
+								}
+							}
+							all_neighbor_state = {
+								has_state_flag = integ_bonus
+								is_owned_by = FROM
+							}
+						}
+					}
+				}
+			}
+			set_state_flag = slow_coring
+			custom_effect_tooltip = cor_sta.3.c.t
+		}
+	}
+}
+
+#coring
+country_event = {
+	id = cor_sta.7
+	fire_only_once = no
+	mean_time_to_happen = { days = 1 }
+	hidden = no
+	
+	title = cor_sta.6.t
+	desc = cor_sta.6.d
+	
+	trigger = {
+		any_state = {
+			AND = {
+				is_owned_by = FROM
+				is_claimed_by = FROM
+				NOT = { is_core_of = FROM }
+				OR = {
+					has_state_flag = {
+						flag = fast_coring
+						inttime*days >80
+					}
+					has_state_flag = {
+						flag = normal_coring
+						inttime*days >170
+					}
+					has_state_flag = {
+						flag = slow_coring
+						inttime*days >350
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = cor_sta.7.a
+		every_state = {
+			limit = {
+				AND = {
+					is_owned_by = FROM
+					is_claimed_by = FROM
+					NOT = { is_core_of = FROM }
+					OR = {
+						has_state_flag = {
+							flag = fast_coring
+							inttime*days >80
+						}
+						has_state_flag = {
+							flag = normal_coring
+							inttime*days >170
+						}
+						has_state_flag = {
+							flag = slow_coring
+							inttime*days >350
+						}
+					}
+				}
+			}
+			add_core_of = FROM
+			hidden_effect = {
+				add_state_modifier = { 
+					modifier = { 
+						local_non_core_manpower = -0.18
+						#resistance_tick_auto = 2
+						local_building_slots_factor = 0.25
+					} 
+				}
+		
+			}
+			clr_state_flag = fast_coring
+			clr_state_flag = normal_coring
+			clr_state_flag = slow_coring
+			clr_state_flag = int_bonus
+			clr_state_flag = fast_integration
+			clr_state_flag = normal_integration
+			clr_state_flag = slow_integration
+		}
+	}
+}
+
+
+
+
+
+
+
