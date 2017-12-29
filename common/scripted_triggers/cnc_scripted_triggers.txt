@@ -1,0 +1,39 @@
+
+can_integrate = {
+	AND = {
+		is_controlled_by = FROM
+		NOT = { is_core_of = FROM }
+		NOT = { is_claimed_by = FROM}
+		NOT = { has_state_flag = fast_integration }
+		NOT = { has_state_flag = normal_integration }
+		NOT = { has_state_flag = slow_integration }
+		#if has int_bonus but no claim, int_bonus will be removed by event 2 anyway
+		if = {
+			LIMIT = { 
+				NOT = { is_owned_by = FROM }
+			}
+			all_neighbor_state = {
+				is_controlled_by = FROM
+			}
+		}
+		OR = {
+			any_neighbor_state = {
+				OR = {
+					is_core_of = FROM
+					has_state_flag = integ_bonus
+				}
+			}
+			AND = {
+				is_coastal = yes
+				FROM = {
+					any_owned_state = {
+						AND = {
+							is_core_of = FROM
+							is_coastal = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
