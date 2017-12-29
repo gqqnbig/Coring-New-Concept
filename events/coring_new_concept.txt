@@ -91,26 +91,7 @@ country_event = {
 	
 	trigger = {
 		any_state = {
-			AND = {
-				is_controlled_by = FROM
-				NOT = {is_core_of = FROM}
-				NOT = {has_state_flag = int_bonus}
-				OR = {
-					is_claimed_by = FROM #add the modifier if already claimed
-					has_state_flag = {
-						flag = fast_integration
-						inttime*days>50
-					}
-					has_state_flag = {
-						flag = normal_integration
-						inttime*days>110
-					}
-					has_state_flag = {
-						flag = slow_integration
-						inttime*days>230
-					}
-				}
-			}
+			is_integrated = yes
 		}
 	}
 	
@@ -118,25 +99,7 @@ country_event = {
 		name = cor_sta.2.a
 		every_state = {
 			limit = {
-				AND = {
-					is_controlled_by = FROM
-					NOT = {is_core_of = FROM}
-					NOT = {has_state_flag = int_bonus}
-					OR = {
-						has_state_flag = {
-							flag = fast_integration
-							inttime*days>50
-						}
-						has_state_flag = {
-							flag = normal_integration
-							inttime*days>110
-						}
-						has_state_flag = {
-							flag = slow_integration
-							inttime*days>230
-						}
-					}
-				}
+				is_integrated = yes
 			}
 			add_state_modifier = { 
 				modifier = { 
@@ -174,48 +137,7 @@ country_event = {
 		AND = {
 			has_war = no
 			any_state = {
-				AND = {
-					is_owned_by = FROM #we are at peace & the state  has to be owned for good
-					is_claimed_by = FROM
-					#has_state_flag = int_bonus : is managed independantly by event 2
-					NOT = { is_core_of = FROM }
-					NOT = { has_state_flag = fast_coring }
-					NOT = { has_state_flag = normal_coring }
-					NOT = { has_state_flag = slow_coring }
-					#NOT = { has_state_flag = fast_integration }#REMOVED BY EVENT 2
-					#NOT = { has_state_flag = normal_integration }
-					#NOT = { has_state_flag = slow_integration }
-					OR = {
-						any_neighbor_state = {
-							AND = {
-								is_core_of = FROM
-								is_owned_by = FROM
-							}
-						}
-						AND = {
-							is_coastal = yes
-							FROM = {
-								any_owned_state = {
-									AND = {
-										is_core_of = FROM
-										is_coastal = yes
-									}
-								}
-							}
-							all_neighbor_state = {
-								is_claimed_by = FROM
-								is_owned_by = FROM
-							}
-						}
-					}
-			#deactivated	any_neighbor_state = {
-				#		AND = {
-				#			is_core_of = FROM
-				#			is_owned_by = FROM
-				#		}
-				#	}
-
-				}
+				can_core = yes
 			}
 		}
 	}
@@ -234,41 +156,7 @@ country_event = {
 		add_political_power = -30
 		random_owned_state = {
 			limit = {
-				AND = {
-					is_owned_by = FROM #we are at peace & the state  has to be owned for good
-					is_claimed_by = FROM
-					#has_state_flag = int_bonus : is managed independantly by event 2
-					NOT = { is_core_of = FROM }
-					NOT = { has_state_flag = fast_coring }
-					NOT = { has_state_flag = normal_coring }
-					NOT = { has_state_flag = slow_coring }
-					#NOT = { has_state_flag = fast_integration }#REMOVED BY EVENT 2
-					#NOT = { has_state_flag = normal_integration }
-					#NOT = { has_state_flag = slow_integration }
-					OR = {
-						any_neighbor_state = {
-							AND = {
-								is_core_of = FROM
-								is_owned_by = FROM
-							}
-						}
-						AND = {
-							is_coastal = yes
-							FROM = {
-								any_owned_state = {
-									AND = {
-										is_core_of = FROM
-										is_coastal = yes
-									}
-								}
-							}
-							all_neighbor_state = {
-								is_claimed_by = FROM
-								is_owned_by = FROM
-							}
-						}
-					}
-				}
+				can_core= yes
 			}
 			custom_effect_tooltip = cor_sta.3.a.t
 			set_state_flag = fast_coring
@@ -289,41 +177,7 @@ country_event = {
 		add_political_power = -10
 		random_owned_state = {
 			limit = {
-				AND = {
-					is_owned_by = FROM #we are at peace & the state  has to be owned for good
-					is_claimed_by = FROM
-					#has_state_flag = int_bonus : is managed independantly by event 2
-					NOT = { is_core_of = FROM }
-					NOT = { has_state_flag = fast_coring }
-					NOT = { has_state_flag = normal_coring }
-					NOT = { has_state_flag = slow_coring }
-					#NOT = { has_state_flag = fast_integration }#REMOVED BY EVENT 2
-					#NOT = { has_state_flag = normal_integration }
-					#NOT = { has_state_flag = slow_integration }
-					OR = {
-						any_neighbor_state = {
-							AND = {
-								is_core_of = FROM
-								is_owned_by = FROM
-							}
-						}
-						AND = {
-							is_coastal = yes
-							FROM = {
-								any_owned_state = {
-									AND = {
-										is_core_of = FROM
-										is_coastal = yes
-									}
-								}
-							}
-							all_neighbor_state = {
-								has_state_flag = integ_bonus
-								is_owned_by = FROM
-							}
-						}
-					}
-				}
+				can_core = yes
 			}
 			set_state_flag = normal_coring
 			custom_effect_tooltip = cor_sta.3.b.t
@@ -334,41 +188,7 @@ country_event = {
 		name = cor_sta.6.c
 		random_owned_state = {
 			limit = {
-				AND = {
-					is_owned_by = FROM #we are at peace & the state  has to be owned for good
-					is_claimed_by = FROM
-					#has_state_flag = int_bonus : is managed independantly by event 2
-					NOT = { is_core_of = FROM }
-					NOT = { has_state_flag = fast_coring }
-					NOT = { has_state_flag = normal_coring }
-					NOT = { has_state_flag = slow_coring }
-					#NOT = { has_state_flag = fast_integration }#REMOVED BY EVENT 2
-					#NOT = { has_state_flag = normal_integration }
-					#NOT = { has_state_flag = slow_integration }
-					OR = {
-						any_neighbor_state = {
-							AND = {
-								is_core_of = FROM
-								is_owned_by = FROM
-							}
-						}
-						AND = {
-							is_coastal = yes
-							FROM = {
-								any_owned_state = {
-									AND = {
-										is_core_of = FROM
-										is_coastal = yes
-									}
-								}
-							}
-							all_neighbor_state = {
-								has_state_flag = integ_bonus
-								is_owned_by = FROM
-							}
-						}
-					}
-				}
+				can_core = yes
 			}
 			set_state_flag = slow_coring
 			custom_effect_tooltip = cor_sta.3.c.t

@@ -37,3 +37,78 @@ can_integrate = {
 		}
 	}
 }
+
+is_integrated = {
+	AND = {
+		is_controlled_by = FROM
+		NOT = {is_core_of = FROM}
+		NOT = {has_state_flag = int_bonus}
+		OR = {
+			is_claimed_by = FROM #add the modifier if already claimed
+			has_state_flag = {
+				flag = fast_integration
+				inttime*days>50
+			}
+			has_state_flag = {
+				flag = normal_integration
+				inttime*days>110
+			}
+			has_state_flag = {
+				flag = slow_integration
+				inttime*days>230
+			}
+		}
+	}
+}
+
+
+can_core = {
+	AND = {
+		OR = {
+			AND = {
+				FROM = { has_government = democratic }
+				is_controlled_by = FROM
+			}
+			is_owned_by = FROM #we are at peace & the state has to be owned for good
+		}
+		is_claimed_by = FROM
+		#has_state_flag = int_bonus : is managed independantly by event 2
+		NOT = { is_core_of = FROM }
+		NOT = { has_state_flag = fast_coring }
+		NOT = { has_state_flag = normal_coring }
+		NOT = { has_state_flag = slow_coring }
+		#NOT = { has_state_flag = fast_integration }#REMOVED BY EVENT 2
+		#NOT = { has_state_flag = normal_integration }
+		#NOT = { has_state_flag = slow_integration }
+		OR = {
+			any_neighbor_state = {
+				AND = {
+					is_core_of = FROM
+					is_owned_by = FROM
+				}
+			}
+			AND = {
+				is_coastal = yes
+				FROM = {
+					any_owned_state = {
+						AND = {
+							is_core_of = FROM
+							is_coastal = yes
+						}
+					}
+				}
+				all_neighbor_state = {
+					has_state_flag = integ_bonus # or is_claimed_by = FROM ?
+					is_owned_by = FROM
+				}
+			}
+		}
+#deactivated	any_neighbor_state = {
+	#		AND = {
+	#			is_core_of = FROM
+	#			is_owned_by = FROM
+	#		}
+	#	}
+
+	}
+}
