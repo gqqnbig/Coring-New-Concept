@@ -112,3 +112,26 @@ can_core = {
 
 	}
 }
+
+
+is_cored = {
+	AND = {
+		is_owned_by = FROM
+		is_claimed_by = FROM
+		NOT = { is_core_of = FROM }
+		OR = {
+			has_state_flag = {
+				flag = fast_coring
+				inttime*days >80
+			}
+			has_state_flag = {
+				flag = normal_coring
+				inttime*days >170
+			}
+			has_state_flag = {
+				flag = slow_coring
+				inttime*days >350
+			}
+		}
+	}
+}

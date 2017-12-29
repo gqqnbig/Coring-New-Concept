@@ -208,25 +208,7 @@ country_event = {
 	
 	trigger = {
 		any_state = {
-			AND = {
-				is_owned_by = FROM
-				is_claimed_by = FROM
-				NOT = { is_core_of = FROM }
-				OR = {
-					has_state_flag = {
-						flag = fast_coring
-						inttime*days >80
-					}
-					has_state_flag = {
-						flag = normal_coring
-						inttime*days >170
-					}
-					has_state_flag = {
-						flag = slow_coring
-						inttime*days >350
-					}
-				}
-			}
+			is_cored = yes
 		}
 	}
 	
@@ -234,25 +216,7 @@ country_event = {
 		name = cor_sta.7.a
 		every_state = {
 			limit = {
-				AND = {
-					is_owned_by = FROM
-					is_claimed_by = FROM
-					NOT = { is_core_of = FROM }
-					OR = {
-						has_state_flag = {
-							flag = fast_coring
-							inttime*days >80
-						}
-						has_state_flag = {
-							flag = normal_coring
-							inttime*days >170
-						}
-						has_state_flag = {
-							flag = slow_coring
-							inttime*days >350
-						}
-					}
-				}
+				is_cored = yes
 			}
 			add_core_of = FROM
 			hidden_effect = {
