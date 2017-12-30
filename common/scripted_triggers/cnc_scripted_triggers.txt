@@ -47,15 +47,15 @@ is_integrated = {
 			is_claimed_by = FROM #add the modifier if already claimed
 			has_state_flag = {
 				flag = fast_integration
-				inttime*days>50
+				days>50
 			}
 			has_state_flag = {
 				flag = normal_integration
-				inttime*days>110
+				days>110
 			}
 			has_state_flag = {
 				flag = slow_integration
-				inttime*days>230
+				days>230
 			}
 		}
 	}
@@ -122,15 +122,15 @@ is_cored = {
 		OR = {
 			has_state_flag = {
 				flag = fast_coring
-				inttime*days >80
+				days >80
 			}
 			has_state_flag = {
 				flag = normal_coring
-				inttime*days >170
+				days >170
 			}
 			has_state_flag = {
 				flag = slow_coring
-				inttime*days >350
+				days >350
 			}
 		}
 	}
