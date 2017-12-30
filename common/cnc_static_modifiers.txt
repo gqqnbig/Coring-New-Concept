@@ -1,0 +1,10 @@
+# All global modifiers are here. They are applied from certain game-features.
+# Effects are fully scriptable here.
+# These names can NOT be removed or changes, as the code uses them....
+
+claim = {#let's hope it works
+	resistance_tick = -.25
+	local_non_core_manpower = 0.18
+	local_building_slots_factor = 0.25
+}
+
