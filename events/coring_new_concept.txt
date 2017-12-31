@@ -4,7 +4,7 @@
 country_event = {
 	id = cor_sta.1
 	fire_only_once = no
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { days = 15 }
 	hidden = no
 	
 	title = cor_sta.1.t
@@ -222,7 +222,7 @@ country_event = {
 country_event = {
 	id = cor_sta.2
 	fire_only_once = no
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { days = 15 }
 	hidden = no
 	
 	title = cor_sta.2.t
@@ -302,7 +302,7 @@ country_event = {
 	id = cor_sta.6
 	fire_only_once = no
 	mean_time_to_happen = {
-		days = 1
+		days = 15
 	}
 	hidden = no
 	
@@ -519,7 +519,7 @@ country_event = {
 country_event = {
 	id = cor_sta.7
 	fire_only_once = no
-	mean_time_to_happen = { days = 1 }
+	mean_time_to_happen = { days = 15 }
 	hidden = no
 	
 	title = cor_sta.6.t
