@@ -135,7 +135,10 @@ country_event = {
 	
 	trigger = {
 		AND = {
-			has_war = no
+			OR = {
+				has_war = no
+				has_government = democratic
+			}
 			any_state = {
 				can_core = yes
 			}
@@ -154,7 +157,7 @@ country_event = {
 		}
 		name = cor_sta.6.a
 		add_political_power = -30
-		random_owned_state = {
+		random_state = {
 			limit = {
 				can_core= yes
 			}
@@ -175,7 +178,7 @@ country_event = {
 		}
 		name = cor_sta.6.b
 		add_political_power = -10
-		random_owned_state = {
+		random_state = {
 			limit = {
 				can_core = yes
 			}
@@ -186,7 +189,7 @@ country_event = {
 	
 	option = { #slow coring
 		name = cor_sta.6.c
-		random_owned_state = {
+		random_state = {
 			limit = {
 				can_core = yes
 			}

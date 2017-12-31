@@ -84,7 +84,13 @@ can_core = {
 			any_neighbor_state = {
 				AND = {
 					is_core_of = FROM
-					is_owned_by = FROM
+					OR = {
+						is_owned_by = FROM
+						AND = {
+							FROM = { has_government = democratic }
+							is_controlled_by = FROM 
+						}
+					}
 				}
 			}
 			AND = {
