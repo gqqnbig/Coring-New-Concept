@@ -103,15 +103,6 @@ can_core = {
 						}
 					}
 				}
-				all_neighbor_state = {
-					OR = {
-						NOT = { is_owned_by = FROM }
-						AND = {
-							has_state_flag = integ_bonus # or is_claimed_by = FROM ?
-							is_owned_by = FROM
-						}
-					}
-				}
 			}
 		}
 #deactivated	any_neighbor_state = {

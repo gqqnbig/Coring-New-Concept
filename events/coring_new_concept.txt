@@ -161,7 +161,7 @@ country_event = {
 			limit = {
 				can_core= yes
 			}
-			custom_effect_tooltip = cor_sta.3.a.t
+			custom_effect_tooltip = cor_sta.6.a.t
 			set_state_flag = fast_coring
 		}
 	}
@@ -183,7 +183,7 @@ country_event = {
 				can_core = yes
 			}
 			set_state_flag = normal_coring
-			custom_effect_tooltip = cor_sta.3.b.t
+			custom_effect_tooltip = cor_sta.6.b.t
 		}
 	}
 	
@@ -194,7 +194,7 @@ country_event = {
 				can_core = yes
 			}
 			set_state_flag = slow_coring
-			custom_effect_tooltip = cor_sta.3.c.t
+			custom_effect_tooltip = cor_sta.6.c.t
 		}
 	}
 }
